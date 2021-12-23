@@ -1,0 +1,32 @@
+.jb {
+  text-align: left;
+  line-height: 1.5;
+  font-size: 1.25rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  /* box-sizing: border-box;
+    width: 1110px;
+    margin-bottom: 2rem; */
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background-color: #ffffff;
+}
+
+.jb h1 {
+  margin-bottom: 1rem !important;
+  margin-top: 1rem !important;
+  font-weight: 300;
+  font-style: italic;
+  color: white;
+}
+.jb p {
+  margin-bottom: 1rem !important;
+  margin-top: 1rem !important;
+  font-weight: 300;
+  color: white;
+}
+.jb a {
+  font-weight: 20 !important;
+  text-decoration: none;
+}
