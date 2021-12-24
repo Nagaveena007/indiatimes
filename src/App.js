@@ -1,7 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MyNav from "./components/MyNav/MyNav";
-import { Container, Alert } from "react-bootstrap";
+import { Container, Alert, Button, Spinner } from "react-bootstrap";
 import FeaturedPosts from "./components/FeaturedPosts/FeaturedPosts";
 import MyJumbotron from "./components/Jumbotron/MyJumbotron";
 import { Component } from "react";
@@ -11,30 +11,33 @@ class App extends Component {
   state = {
     blogs: null,
     searchResults: [],
+    countrywiseArticles: [],
     loading: true,
     error: false,
-    country: "us",
+    country: "in",
   };
   apikey = `&apiKey=3e3bd1d7ddf54a268dca59e4b48107bc`;
   url = `https://newsapi.org/v2/top-headlines?country=us&category=`;
   componentDidMount = () => {
     this.loadArticles("business", "in");
+    this.countryArticle("de");
   };
   /*  componentDidUpdate = (prevProps) => {
 
   }; */
   loadArticles = async (category, country) => {
-    console.log("load articles");
+    //console.log("load articles");
     const URL = `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=3e3bd1d7ddf54a268dca59e4b48107bc`;
     try {
       const resp = await fetch(URL);
       if (resp.ok) {
         const data = await resp.json();
-        console.log(data);
+        // console.log(data);
 
         this.setState({
           blogs: data.articles,
           searchResults: [],
+          countrywiseArticles: [],
         });
       } else {
         this.setState({ error: true });
@@ -69,6 +72,30 @@ class App extends Component {
       }
     }
   };
+  countryArticle = async (country) => {
+    //console.log("load articles");
+    const URL = `https://newsapi.org/v2/top-headlines?country=${country}&category=business&apiKey=3e3bd1d7ddf54a268dca59e4b48107bc`;
+    try {
+      const resp = await fetch(URL);
+      if (resp.ok) {
+        const data = await resp.json();
+        // console.log(data);
+
+        this.setState({
+          blogs: data.articles,
+          searchResults: [],
+          countrywiseArticles: [],
+        });
+      } else {
+        this.setState({ error: true });
+        console.log("fetch failed");
+      }
+    } catch (error) {
+      this.setState({ loading: false });
+      this.setState({ error: true });
+      console.log(error);
+    }
+  };
 
   render() {
     return (
@@ -83,10 +110,22 @@ class App extends Component {
             "sports",
             "technology",
           ]}
-          countries={["us", "ua", "de", "in", "it", "au"]}
+          countries={["us", "in", "de", "ua", "it", "au", "de"]}
           loadArticles={this.loadArticles}
           searchBar={this.searchBar}
         />
+      {/*   {this.state.loading && (
+          <Button variant="primary" disabled>
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+            Loading...
+          </Button>
+        )} */}
         {this.state.error && (
           <Alert variant="danger" className="text-center">
             An error has occurred, please try again!
@@ -103,8 +142,7 @@ class App extends Component {
               articles={this.state.searchResults}
             />
             <BlogList
-              countries={["us", "ua", "de", "in", "it", "au"]}
-              loadArticles={this.loadArticles}
+              countryArticle={this.countryArticle}
               loading={this.state.loading}
               articles={this.state.searchResults}
             />
@@ -128,6 +166,8 @@ class App extends Component {
               <BlogList
                 loading={this.state.loading}
                 articles={this.state.blogs}
+                countries={["us", "ua", "de", "in", "it", "au"]}
+                countryArticle={this.countryArticle}
               />
             )}
           </>

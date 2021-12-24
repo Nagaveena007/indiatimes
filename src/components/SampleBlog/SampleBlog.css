@@ -38,3 +38,7 @@ p {
   margin-top: 1rem !important;
   font-weight: 300;
 }
+.Navigation {
+  display: flex;
+  flex-direction: column;
+}
